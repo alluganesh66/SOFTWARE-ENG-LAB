@@ -1,0 +1,55 @@
+import math
+
+def solve_quadratic(a, b, c, source=""):
+    if a == 0:
+        print(f"[{source}] Not a quadratic equation (a = 0)")
+        return
+
+    discriminant = b**2 - 4*a*c
+    if discriminant > 0:
+        root1 = (-b + math.sqrt(discriminant)) / (2*a)
+        root2 = (-b - math.sqrt(discriminant)) / (2*a)
+        print(f"[{source}] Two real roots: {root1:.2f}, {root2:.2f}")
+    elif discriminant == 0:
+        root = -b / (2*a)
+        print(f"[{source}] One real root: {root:.2f}")
+    else:
+        print(f"[{source}] No real roots (complex roots)")
+
+
+def model_hardcoded():
+    a, b, c = 1.5, -3.2, 0.7
+    solve_quadratic(a, b, c, source="Hardcoded")
+
+
+def model_keyboard():
+    try:
+        a = float(input("Enter coefficient a: "))
+        b = float(input("Enter coefficient b: "))
+        c = float(input("Enter coefficient c: "))
+        solve_quadratic(a, b, c, source="Keyboard")
+    except ValueError:
+        print("[Keyboard] Invalid input, please enter numeric values.")
+
+
+def model_file(filename="coefficients.txt"):
+    try:
+        with open(filename, 'r') as file:
+            line = file.readline().strip()
+            a, b, c = map(float, line.split())
+            solve_quadratic(a, b, c, source="File")
+    except FileNotFoundError:
+        print(f"[File] Error: File '{filename}' not found.")
+    except ValueError:
+        print("[File] Invalid content in file (expected 3 numbers).")
+
+
+if __name__ == "__main__":
+    print("=== Weather Model Using Quadratic Equation ===\n")
+    
+    # Run all three models
+    model_hardcoded()
+    print("\n-- Now testing keyboard input --")
+    model_keyboard()
+    print("\n-- Now testing file input --")
+    model_file()  # make sure coefficients.txt exists with valid numbers like: 1 5 6
