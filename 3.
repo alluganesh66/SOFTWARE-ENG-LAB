@@ -1,0 +1,35 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+
+int main() {
+    FILE *file;
+    double t, a, b, c, T;
+   
+    // Open the file
+    file = fopen("coefficients.txt", "r");
+    if (file == NULL) {
+        printf("Error opening file.\n");
+        return 1;
+    }
+
+    // Read coefficients from the file
+    if (fscanf(file, "%lf %lf %lf", &a, &b, &c) != 3) {
+        printf("Error reading coefficients from the file.\n");
+        fclose(file);
+        return 1;
+    }
+   
+    // Close the file
+    fclose(file);
+
+    printf("Weather Model - Version 3 (File Input)\n");
+   
+    // Loop to simulate time from 0 to 24 hours, with 0.1 hour steps
+    for (t = 0; t <= 24.0; t += 0.1) {
+        T = a * t * t + b * t + c;  // Quadratic model
+        printf("Time: %.1f hours, Temperature: %.2f°C\n", t, T);
+    }
+   
+    return 0;
+}
